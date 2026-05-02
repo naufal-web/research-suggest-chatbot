@@ -9,9 +9,9 @@ class GenerativeAI:
 
         api_keys = []
 
-        api_keys.append("AIzaSyCTrsPMG8alut_UlLFDxSBLY6JeVo1amKc")
-        api_keys.append("AIzaSyB2RNr_3DmHdmew96hQkWrXr2WNW5L53eI")
-        api_keys.append("AIzaSyDsiR3A7xXu7WHaezXJ5u2cxa_1U8s633A")
+        # api_keys.append("AIzaSyCTrsPMG8alut_UlLFDxSBLY6JeVo1amKc")
+        # api_keys.append("AIzaSyB2RNr_3DmHdmew96hQkWrXr2WNW5L53eI")
+        # api_keys.append("AIzaSyDsiR3A7xXu7WHaezXJ5u2cxa_1U8s633A")
         self._api_keys = api_keys
         self._model = model
         self._answer = None
@@ -47,6 +47,8 @@ class GenerativeAI:
         self._top_k = top_k
 
     def _iterate_within_api_key(self, api_key):
+
+        answer = ""
         for _ in range(self._iteration):
             client = genai.Client(api_key=api_key)
             try:
@@ -59,7 +61,7 @@ class GenerativeAI:
                         'top_k': self._top_k,
                         },
                 )
-                if len(response.text) >= 0:
+                if len(response.text) > 0:
                     answer = response.text
                     break
             except:
@@ -74,15 +76,13 @@ class GenerativeAI:
 
         for api_key in self._api_keys:
             answer = self._iterate_within_api_key(api_key)
-            if len(answer) >= 0:
-                break
 
         self.answer = answer
 
     def retrieve_answer(self):
         return self.answer
     
-class MainPage:
+class MainPage(GenerativeAI):
     def __init__(self):
         super().__init__()
 
@@ -94,6 +94,13 @@ class MainPage:
         st.title(self.page_title)
         st.caption(self.caption) 
 
+        with st.sidebar:
+            st.title("Pengaturan Chatbot")
+
+            api_key = st.text_input("Masukkan API Key yang kamu punya ... ", type="password")
+            if api_key:
+                self.add_new_api_key(api_key)
+            st.caption("API Key bisa kamu ambil di Gemini API Developer ya.")
             
         if "messages" not in st.session_state:
             st.session_state.messages = []
@@ -124,13 +131,12 @@ class MainPage:
 
         if self.user_message.lower().find("proposal penelitian") >= 0:
 
-            gen_ai = GenerativeAI(model="gemini-3-preview")
-            gen_ai.send_message(self.user_message)
-            gen_ai.set_iteration(14)
-            gen_ai.set_temperature(0)
-            gen_ai.set_top_p(0.85)
-            gen_ai.set_top_k(17)
-            gen_ai.run()
+            self.send_message(self.user_message)
+            self.set_iteration(10)
+            self.set_temperature(1)
+            self.set_top_p(0.0)
+            self.set_top_k(1)
+            self.run()
 
             answer = gen_ai.retrieve_answer()
             
