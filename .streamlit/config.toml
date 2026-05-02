@@ -1,0 +1,8 @@
+[theme]
+base="dark"
+primaryColor="forestGreen"
+borderColor="whiteColor"
+codeBackgroundColor="whiteColor"
+
+[theme.sidebar]
+primaryColor="darkGoldrod"
