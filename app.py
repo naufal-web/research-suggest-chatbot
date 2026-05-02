@@ -126,7 +126,7 @@ class MainPage(GenerativeAI):
         with st.chat_message("user"):
             st.markdown(self.user_message)
 
-        if self.user_message.lower().find("proposal penelitian") >= 0:
+        if self.user_message.lower().find("usulan penelitian") >= 0:
 
             self.send_message(self.user_message)
             self.set_iteration(10)
