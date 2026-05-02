@@ -135,7 +135,7 @@ class MainPage(GenerativeAI):
             self.set_top_k(1)
             self.run()
 
-            answer = gen_ai.retrieve_answer()
+            answer = self.retrieve_answer()
             
             with st.chat_message("assistant"):
                 st.write(answer)
