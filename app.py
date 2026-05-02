@@ -9,9 +9,6 @@ class GenerativeAI:
 
         api_keys = []
 
-        # api_keys.append("AIzaSyCTrsPMG8alut_UlLFDxSBLY6JeVo1amKc")
-        # api_keys.append("AIzaSyB2RNr_3DmHdmew96hQkWrXr2WNW5L53eI")
-        # api_keys.append("AIzaSyDsiR3A7xXu7WHaezXJ5u2cxa_1U8s633A")
         self._api_keys = api_keys
         self._model = model
         self._answer = None
